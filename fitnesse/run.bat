@@ -1,0 +1,1 @@
+java -Xmx256M -jar fitnesse-20100103.jar -p 9001 -e 0
