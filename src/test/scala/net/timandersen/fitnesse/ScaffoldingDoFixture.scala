@@ -8,10 +8,10 @@ import fitnesse.fixtures.RowEntryFixture
 import net.timandersen.TransactionFields
 
 class ScaffoldingDoFixture extends DoFixture {
-  var mode = Mode.GIVEN
+  var mode: Mode = Given
 
   def given(what: String): Fixture = {
-    mode = Mode.GIVEN
+    mode = Given
     what match {
       case "transactions" => TransactionRowEntryFixture
       case _ => null
@@ -21,7 +21,7 @@ class ScaffoldingDoFixture extends DoFixture {
   def when(what: String): Boolean = {
     what match {
       case "the monthly statements are processed" => {
-        //this would do something a bit more interesting
+        net.timandersen.Main.main(Array())
         true
       }
       case _ => false
@@ -29,7 +29,7 @@ class ScaffoldingDoFixture extends DoFixture {
   }
 
   def then(what: String): Fixture = {
-    mode = Mode.THEN
+    mode = Then
     what match {
       case "the bank statement" => ThenBankStatementFixture
       case _ => null
@@ -38,52 +38,14 @@ class ScaffoldingDoFixture extends DoFixture {
 
   def and(what: String): Fixture = {
     mode match {
-      case Mode.GIVEN => given(what)
-      case Mode.THEN => then(what)
+      case Given => given(what)
+      case Then => then(what)
     }
   }
 
 }
 
-object Mode extends Enumeration {
-  val GIVEN = Value("given")
-  val THEN = Value("then")
-}
 
-
-object TransactionRowEntryFixture extends TargetedRowEntryFixture {
-  override def getTargetObject = new TransactionFields()
-
-  override def enterRow() {
-    //setup test data here
-  }
-}
-
-
-object ThenBankStatementFixture extends DoFixture {
-  def balanceOnWas(date: String): String = {
-    date match {
-      //faking it for now
-      case "08/01/2012" => "$130.00"
-      case "09/01/2012" => "$127.75"
-    }
-
-  }
-}
-
-
-abstract class TargetedRowEntryFixture extends RowEntryFixture {
-  protected def getTargetObject: AnyRef
-
-  protected override def bind(heads: Parse) {
-    super.bind(heads)
-    var i: Int = 0
-    while (i < columnBindings.length) {
-      val binding: Binding = columnBindings(i)
-      binding.adapter.target = getTargetObject
-      i += 1
-    }
-  }
-
-  protected override def getTargetClass = getTargetObject.getClass
-}
+sealed trait Mode
+case object Given extends Mode
+case object Then extends Mode

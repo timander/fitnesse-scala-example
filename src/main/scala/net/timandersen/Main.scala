@@ -3,5 +3,5 @@ package net.timandersen
 
 
 object Main extends App {
-  println("it ran")
+  println("pretend that it ran")
 }
