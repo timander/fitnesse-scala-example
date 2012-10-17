@@ -1,1 +1,8 @@
 !contents -R2 -g -p -f -h
+
+!define today {!today (MM/dd/yyyy)}
+!define yesterday {!today (MM/dd/yyyy) -1}
+
+!path ../target/test-classes
+!path ../target/classes
+!path ../target/dependency/*

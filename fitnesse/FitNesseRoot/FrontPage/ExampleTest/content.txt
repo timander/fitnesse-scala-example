@@ -1,6 +1,6 @@
 !contents -R2 -g -p -f -h
 
-!|net.timandersen.fitnesse.ScaffoldDoFixture|
+!|net.timandersen.fitnesse.ScaffoldingDoFixture|
 
 |given  |transactions     |
 |amount |type  |date      |
@@ -10,10 +10,8 @@
 
 |when|the monthly statements are processed|
 
-|then |the bank statement    |
-|for  |August 2012           |
-|check|has balance of|$130.00|
+|then |the bank statement               |
+|check|balance on|08/01/2012|was|$130.00|
 
-|and  |the bank statement    |
-|for  |September 2012        |
-|check|has balance of|$127.75|
+|and  |the bank statement               |
+|check|balance on|09/01/2012|was|$127.75|
