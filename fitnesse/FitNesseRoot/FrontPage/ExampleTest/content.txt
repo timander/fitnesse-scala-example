@@ -1,0 +1,19 @@
+!contents -R2 -g -p -f -h
+
+!|net.timandersen.fitnesse.ScaffoldDoFixture|
+
+|given  |transactions     |
+|amount |type  |date      |
+|$100.00|Credit|06/26/2012|
+|$30.00 |Credit|07/26/2012|
+|$2.25  |Debit |08/26/2012|
+
+|when|the monthly statements are processed|
+
+|then |the bank statement    |
+|for  |August 2012           |
+|check|has balance of|$130.00|
+
+|and  |the bank statement    |
+|for  |September 2012        |
+|check|has balance of|$127.75|
