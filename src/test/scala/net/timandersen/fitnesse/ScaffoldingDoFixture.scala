@@ -2,16 +2,12 @@ package net.timandersen.fitnesse
 
 import fitlibrary.DoFixture
 import fit.Fixture
-import fit.Binding
-import fit.Parse
-import fitnesse.fixtures.RowEntryFixture
-import net.timandersen.TransactionFields
 
 class ScaffoldingDoFixture extends DoFixture {
-  var mode: Mode = Given
+  var mode: Mode = GivenMode
 
   def given(what: String): Fixture = {
-    mode = Given
+    mode = GivenMode
     what match {
       case "transactions" => TransactionRowEntryFixture
       case _ => null
@@ -21,7 +17,7 @@ class ScaffoldingDoFixture extends DoFixture {
   def when(what: String): Boolean = {
     what match {
       case "the monthly statements are processed" => {
-        net.timandersen.Main.main(Array())
+        net.timandersen.ReportMaker.main(Array())
         true
       }
       case _ => false
@@ -29,7 +25,7 @@ class ScaffoldingDoFixture extends DoFixture {
   }
 
   def then(what: String): Fixture = {
-    mode = Then
+    mode = ThenMode
     what match {
       case "the bank statement" => ThenBankStatementFixture
       case _ => null
@@ -38,8 +34,8 @@ class ScaffoldingDoFixture extends DoFixture {
 
   def and(what: String): Fixture = {
     mode match {
-      case Given => given(what)
-      case Then => then(what)
+      case GivenMode => given(what)
+      case ThenMode => then(what)
     }
   }
 
@@ -47,5 +43,7 @@ class ScaffoldingDoFixture extends DoFixture {
 
 
 sealed trait Mode
-case object Given extends Mode
-case object Then extends Mode
+
+case object GivenMode extends Mode
+
+case object ThenMode extends Mode

@@ -1,29 +1,39 @@
 package net.timandersen.fitnesse
 
 import fitlibrary.DoFixture
-import fit.Fixture
-import fit.Binding
-import fit.Parse
-import fitnesse.fixtures.RowEntryFixture
-import net.timandersen.TransactionFields
+import net.timandersen._
+import net.timandersen.Transaction
+import java.text.SimpleDateFormat
+import testutil.TransactionFields
 
 object TransactionRowEntryFixture extends TargetedRowEntryFixture {
 
-  override def getTargetObject = new TransactionFields()
+
+  val fields = new TransactionFields()
+
+  override def getTargetObject = fields
 
   override def enterRow() {
-    //setup test data here
+
+    val transactionType: TransactionType = fields.transactionType match {
+      case "Debit" => DEBIT
+      case "Credit" => CREDIT
+    }
+
+    val transaction = Transaction(
+      BigDecimal(fields.amount.replaceAll("\\$", "")),
+      transactionType,
+      new SimpleDateFormat("MM/dd/yyyy").parse(fields.date)
+    )
+
+    DataStore.addTransaction(transaction)
+    fields.reset()
   }
 }
 
 
 object ThenBankStatementFixture extends DoFixture {
   def balanceOnWas(date: String): String = {
-    date match {
-      //faking it for now
-      case "08/01/2012" => "$130.00"
-      case "09/01/2012" => "$127.75"
-    }
-
+    ReportMaker.computeBalanceAsOf(new SimpleDateFormat("MM/dd/yyyy").parse(date))
   }
 }

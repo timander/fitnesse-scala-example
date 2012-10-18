@@ -2,11 +2,11 @@
 
 !|net.timandersen.fitnesse.ScaffoldingDoFixture|
 
-|given  |transactions     |
-|amount |type  |date      |
-|$100.00|Credit|06/26/2012|
-|$30.00 |Credit|07/26/2012|
-|$2.25  |Debit |08/26/2012|
+|given  |transactions               |
+|amount |transaction type|date      |
+|$100.00|Credit          |06/26/2012|
+|$30.00 |Credit          |07/26/2012|
+|$2.25  |Debit           |08/26/2012|
 
 |when|the monthly statements are processed|
 

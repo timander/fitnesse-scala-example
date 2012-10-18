@@ -1,11 +1,8 @@
 package net.timandersen.fitnesse
 
-import fitlibrary.DoFixture
-import fit.Fixture
 import fit.Binding
 import fit.Parse
 import fitnesse.fixtures.RowEntryFixture
-import net.timandersen.TransactionFields
 
 abstract class TargetedRowEntryFixture extends RowEntryFixture {
   protected def getTargetObject: AnyRef
